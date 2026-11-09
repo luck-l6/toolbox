@@ -12,7 +12,7 @@ window.TOOLS = [
     tags: ["截图", "标注", "热键", "截图库"],
     status: "ready",
     url: "snapshot.html",
-    meta: "Windows · 121 MB"
+    meta: "Windows · 96 MB"
   },
   {
     no: "02",
