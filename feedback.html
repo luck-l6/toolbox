@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>反馈 — 报告 Bug 或提一个想法 | 小工具集</title>
+<meta name="description" content="反馈 Snapshot、VideoTodo、DeskDock 的 Bug，或者告诉我你想要什么功能、还缺什么工具。留言直接进我的邮箱。">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<meta property="og:title" content="反馈 — 报告 Bug 或提一个想法 | 小工具集">
+<meta property="og:description" content="反馈 Snapshot、VideoTodo、DeskDock 的 Bug，或者告诉我你想要什么功能、还缺什么工具。留言直接进我的邮箱。">
+<meta property="og:image" content="https://luck-l6.github.io/toolbox/assets/og.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://luck-l6.github.io/toolbox/feedback.html">
+<meta property="og:site_name" content="小工具集">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500&family=Noto+Serif+SC:wght@300;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<div id="loader">
+  <div class="load__mark">feedback</div>
+  <div class="load__bar"></div>
+</div>
+
+<canvas id="field"></canvas>
+<div class="spot" id="spot"></div>
+<div class="grain"></div>
+<div class="vignette"></div>
+
+<div class="cur" id="cur"></div>
+<div class="cur-dot" id="curdot"></div>
+<div class="progress" id="prog"></div>
+
+<nav class="nav" id="nav">
+  <a href="index.html" class="brand"><i></i>小工具集</a>
+  <div class="nav__links">
+    <a href="index.html#toolbox">全部工具</a>
+    <a href="feedback.html" aria-current="page">反馈</a>
+    <a href="index.html#download">下载</a>
+  </div>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="mmenu">
+      <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+</nav>
+<div class="mmenu" id="mmenu" aria-hidden="true">
+  <nav>
+    <div class="mm__tag">MENU &middot; 小工具集</div>
+    <a href="index.html#toolbox">全部工具</a>
+    <a href="feedback.html">反馈</a>
+    <a href="index.html#download">下载</a>
+    <a href="index.html">回到首页</a>
+  </nav>
+</div>
+
+
+<main class="page">
+
+  <header class="dhead wrap">
+    <a href="index.html" class="back">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5m0 0 6-6m-6 6 6 6"/></svg>
+      回到工具箱
+    </a>
+    <div class="dhead__grid">
+      <div>
+        <div class="eyebrow">FEEDBACK &middot; 反馈</div>
+        <h1>发现问题，<br>或者想要点什么。</h1>
+      </div>
+      <div>
+        <p class="dhead__lead">Bug、想要的功能、还缺的那个工具——写在这里，都会到我邮箱。不用注册，不用加群。</p>
+      </div>
+    </div>
+  </header>
+
+  <section class="wrap fb">
+    <div class="fb__grid">
+
+      <aside class="fb__side">
+        <div class="fb__points">
+          <div><b>01</b><span>直接进我邮箱。没有工单系统、没有客服机器人，只有我看得到。</span></div>
+          <div><b>02</b><span>留了邮箱就会回你。修好了、或者做好了，写邮件告诉你。</span></div>
+          <div><b>03</b><span>别放敏感信息。表单经第三方服务转发；密码、密钥、证件请别贴。</span></div>
+          <div><b>04</b><span>收不到回复也正常。想法太多，我按能做的排。</span></div>
+        </div>
+      </aside>
+
+      <form id="fbForm" novalidate autocomplete="off">
+        <div class="types" role="group" aria-label="反馈类型">
+          <button type="button" class="type on" data-type="bug" aria-pressed="true">
+            <div class="type__k"><i></i>01 / BUG</div>
+            <svg viewBox="0 0 24 24"><path d="M8 3v3M16 3v3M4 12h3M17 12h3M6 20l2-3M18 20l-2-3"/><rect x="7" y="6" width="10" height="12" rx="4"/><path d="M10 11h.01M14 11h.01"/></svg>
+            <b>报告 Bug</b>
+            <span>现有工具出问题了</span>
+          </button>
+          <button type="button" class="type" data-type="feature" aria-pressed="false">
+            <div class="type__k"><i></i>02 / FEATURE</div>
+            <svg viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M5.5 12H3M21 12h-2.5"/><circle cx="12" cy="12" r="4.2"/><path d="m17.5 6.5 1.6-1.6M4.9 19.1l1.6-1.6"/></svg>
+            <b>功能建议</b>
+            <span>现有工具还能更好</span>
+          </button>
+          <button type="button" class="type" data-type="idea" aria-pressed="false">
+            <div class="type__k"><i></i>03 / IDEA</div>
+            <svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9V16h7v-2.1A6 6 0 0 0 12 3z"/></svg>
+            <b>新工具想法</b>
+            <span>还缺一个趁手的</span>
+          </button>
+        </div>
+
+        <div class="field" id="fTool">
+          <label>哪个工具 <u>必选</u></label>
+          <select id="tool" name="tool"></select>
+        </div>
+
+        <div class="field">
+          <label for="title">一句话概括 <u>必填</u></label>
+          <input id="title" name="title" maxlength="90" required placeholder="按热键没反应，只有第一次能用">
+        </div>
+
+        <div class="field">
+          <label for="detail" id="detailLabel">具体发生了什么 <u>必填</u></label>
+          <textarea id="detail" name="detail" required placeholder="打开 Snapshot 后按 Ctrl+Shift+X，十字准星闪一下就消失，托盘图标还在，必须重启程序才恢复…"></textarea>
+        </div>
+
+        <div class="field" id="fSteps">
+          <label for="steps">怎么复现 <u>选填</u></label>
+          <textarea id="steps" name="steps" style="min-height:132px" placeholder="1. 先截一张图&#10;2. 最小化到托盘&#10;3. 再按热键&#10;——每次都能重现"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="mail">你的邮箱 <u>选填，方便回你</u></label>
+          <input id="mail" name="mail" type="email" placeholder="you@example.com">
+        </div>
+
+        <div class="fb__submit">
+          <button type="submit" class="btn btn--fill" id="sendBtn">
+            发送反馈
+            <svg viewBox="0 0 24 24"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></svg>
+          </button>
+          <div class="fb__hint">不收集任何浏览数据。只把你填的这些发出去。</div>
+        </div>
+
+        <div class="msg" id="msg" role="status" aria-live="polite"></div>
+      </form>
+
+    </div>
+  </section>
+
+  <footer class="wrap foot">
+    <span>&copy; 2026 小工具集</span>
+    <span>纯本地 &middot; 不上传 &middot; 无账号</span>
+    <a href="index.html">回到首页 ↑</a>
+  </footer>
+
+</main>
+
+<script src="assets/tools.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/feedback.js"></script>
+</body>
+</html>

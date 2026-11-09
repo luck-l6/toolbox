@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DeskDock — 让桌面只留一个入口 | 小工具集</title>
+<meta name="description" content="DeskDock：把桌面和开始菜单里的应用收进一条底部 Dock，桌面一个图标都不留——文件一个都没动。">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<meta property="og:title" content="DeskDock — 让桌面只留一个入口 | 小工具集">
+<meta property="og:description" content="DeskDock：把桌面和开始菜单里的应用收进一条底部 Dock，桌面一个图标都不留——文件一个都没动。">
+<meta property="og:image" content="https://luck-l6.github.io/toolbox/assets/og.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://luck-l6.github.io/toolbox/deskdock.html">
+<meta property="og:site_name" content="小工具集">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500&family=Noto+Serif+SC:wght@300;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<div id="loader">
+  <div class="load__mark">deskdock</div>
+  <div class="load__bar"></div>
+</div>
+
+<canvas id="field"></canvas>
+<div class="spot" id="spot"></div>
+<div class="grain"></div>
+<div class="vignette"></div>
+
+<div class="cur" id="cur"></div>
+<div class="cur-dot" id="curdot"></div>
+<div class="progress" id="prog"></div>
+
+<nav class="nav" id="nav">
+  <a href="index.html" class="brand"><i></i>小工具集</a>
+  <div class="nav__links">
+    <a href="index.html#toolbox">全部工具</a>
+    <a href="snapshot.html">Snapshot</a>
+    <a href="videotodo.html">VideoTodo</a>
+    <a href="feedback.html">反馈</a>
+  </div>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="mmenu">
+      <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+</nav>
+<div class="mmenu" id="mmenu" aria-hidden="true">
+  <nav>
+    <div class="mm__tag">MENU &middot; 小工具集</div>
+    <a href="index.html#toolbox">全部工具</a>
+    <a href="feedback.html">反馈</a>
+    <a href="index.html#download">下载</a>
+    <a href="index.html">回到首页</a>
+  </nav>
+</div>
+
+
+<main class="page">
+
+  <header class="dhead wrap">
+    <a href="index.html#toolbox" class="back">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5m0 0 6-6m-6 6 6 6"/></svg>
+      返回工具箱
+    </a>
+
+    <div class="dhead__grid">
+      <div>
+        <div class="eyebrow">03 &nbsp;/&nbsp; 桌面与系统</div>
+        <h1>让桌面<br>只留<em style="font-style:normal;color:var(--gold)">一个入口</em>。</h1>
+      </div>
+      <div>
+        <p class="dhead__lead">
+          把桌面和开始菜单里的应用收进一条常驻底部的 Dock，
+          桌面上一个图标都不留——而文件，一个都没动。
+          Alt+Q 唤出毛玻璃面板，拼音缩写直达任何应用。
+        </p>
+        <div class="spec">
+          <div><span>版本</span><b>v1.2.1</b></div>
+          <div><span>平台</span><b>Windows</b></div>
+          <div><span>体积</span><b>55 MB</b></div>
+          <div><span>安装</span><b>绿色版，双击即用</b></div>
+          <div><span>网络</span><b>零请求</b></div>
+        </div>
+        <div class="clg">
+          <div class="clg__t">更新日志</div>
+          <div class="clg__i"><b>v1.2.1</b><span>修复网格面板里应用点不开、已在后台运行的应用点不开。</span></div>
+          <div class="clg__i"><b>v1.2.0</b><span>Dock 归你管：自己挑、能沉底、点了有回音。</span></div>
+          <div class="clg__i"><b>v1.1.0</b><span>底部 Dock 栏接管入口。</span></div>
+          <div class="clg__i"><b>v1.0.1</b><span>修复崩溃后的图标恢复。</span></div>
+          <div class="clg__i"><b>v1.0.0</b><span>首个可用版本。</span></div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:26px;flex-wrap:wrap">
+          <a href="https://github.com/luck-l6/DeskDock/releases/latest/download/DeskDock.exe" class="btn btn--fill" data-magnet rel="noopener">
+            下载 DeskDock
+            <svg viewBox="0 0 24 24"><path d="M12 4v12m0 0 5-5m-5 5-5-5M5 20h14"/></svg>
+          </a>
+        </div>
+          <p class="dlwarn">首次运行如提示&ldquo;未知发布者&rdquo;，点 <b>更多信息 &rarr; 仍要运行</b>。绿色版，下载即用。</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主展示：面板 + Dock 浮条 -->
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="vshow rv">
+        <figure class="frame">
+          <div class="frame__bar"><i></i><i></i><i></i><span class="frame__url">deskdock / launchpad</span></div>
+          <img src="assets/dd-panel.png" alt="DeskDock 毛玻璃全屏面板">
+          <div class="frame__glare"></div>
+        </figure>
+        <figure class="vshow__float vshow__float--dock">
+          <img src="assets/dd-dock.png" alt="DeskDock 底部 Dock 栏">
+        </figure>
+        <div class="vshow__cap">
+          <span>全屏 Launchpad / 毛玻璃</span>
+          <span>底部 Dock 栏 / 常驻</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="feat rv">
+        <div class="feat__c"><div class="feat__n">01</div><div class="feat__t">底部 Dock</div><div class="feat__d">最常用的应用躺在屏幕底部，点一下就走，不用先唤起面板。</div></div>
+        <div class="feat__c"><div class="feat__n">02</div><div class="feat__t">Alt+Q 面板</div><div class="feat__d">毛玻璃全屏面板，搜索、分类、排序，Esc 即收。</div></div>
+        <div class="feat__c"><div class="feat__n">03</div><div class="feat__t">拼音直达</div><div class="feat__d">输 wx 找微信，vsc 找 VS Code——首字母缩写也能搜到。</div></div>
+        <div class="feat__c"><div class="feat__n">04</div><div class="feat__t">装完自动出现</div><div class="feat__d">59 个源目录在监听，装了新软件不用手动刷新。</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 三条承诺 -->
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec__head rv">
+        <div>
+          <div class="sec__idx"><span class="sec__num">/</span><span class="sec__tag">PROMISES</span></div>
+          <h2 class="sec__title">先说清楚它<em>不做什么</em>。</h2>
+        </div>
+        <p class="sec__body">这是整个设计的前提，也是它和“桌面整理工具”最大的区别。</p>
+      </div>
+
+      <div class="rules rv">
+        <div class="rule">
+          <div class="rule__n">/ 01</div>
+          <div class="rule__t">不移动、不复制、不删除任何文件</div>
+          <div class="rule__d">桌面图标只是“不再由 Explorer 绘制”，文件完整留在原目录。任何把快捷方式搬进某个文件夹的方案都不采纳。</div>
+        </div>
+        <div class="rule">
+          <div class="rule__n">/ 02</div>
+          <div class="rule__t">一切可逆</div>
+          <div class="rule__d">程序崩了、退出了，随时能恢复系统桌面图标——崩溃钩子、下次登录兜底、启动自检，三层保险，托盘里还有手动开关。</div>
+        </div>
+        <div class="rule">
+          <div class="rule__n">/ 03</div>
+          <div class="rule__t">只读扫描 + 图标缓存</div>
+          <div class="rule__d">不做写操作，不碰用户数据。实测 155 条快捷方式去重后 145 条，图标命中 145/145。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 设置面板 -->
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="duo rv">
+        <div data-parallax="0.03">
+          <div class="plate"><img src="assets/dd-settings.png" alt="DeskDock 设置面板"></div>
+          <div class="plate__cap">设置 / 收纳范围与热键都可调</div>
+        </div>
+        <div>
+          <div class="rule__d" style="padding-top:8px">
+            居中卡片面板还是全屏 Launchpad，排序按使用频率还是按名称，收纳不收纳公共开始菜单、
+            要不要藏命令行程序——都在设置里。Dock 图标大小，一个滑块解决。
+          </div>
+          <div class="rule__d" style="margin-top:14px;color:var(--paper);font-family:var(--hans);font-size:1.05rem">
+            实测冷启动 1.0–1.3 秒，唤出延迟 72–115 毫秒，快到不像是个 Python 程序。
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="fbline">
+      <p>用着不对劲，或者少了点什么？<em>说一声。</em></p>
+      <div class="fbline__acts">
+        <a href="feedback.html?tool=deskdock&amp;type=bug">报告 Bug</a>
+        <a href="feedback.html?tool=deskdock&amp;type=feature">提个建议</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <a href="videotodo.html" class="next">
+      <div>
+        <div class="next__k">下一个工具</div>
+        <div class="next__n">VideoTodo — 一边看，一边把时间点钉住</div>
+      </div>
+      <svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg>
+    </a>
+  </div>
+
+  <footer class="wrap foot">
+    <span>&copy; 2026 小工具集</span>
+    <span>纯本地 &middot; 不上传 &middot; 无账号</span>
+    <a href="index.html">回到首页 ↑</a>
+  </footer>
+
+</main>
+
+<script src="assets/tools.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

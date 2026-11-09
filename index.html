@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>小工具集 — 把小事做成快捷键</title>
+<meta name="description" content="一堆只干一件事、但干得很快的桌面小工具。Snapshot 截图标注、VideoTodo 视频待办。纯本地运行，不上传任何数据。">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<meta property="og:title" content="小工具集 — 把小事做成快捷键">
+<meta property="og:description" content="一堆只干一件事、但干得很快的桌面小工具。Snapshot 截图标注、VideoTodo 视频待办。纯本地运行，不上传任何数据。">
+<meta property="og:image" content="https://luck-l6.github.io/toolbox/assets/og.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://luck-l6.github.io/toolbox/">
+<meta property="og:site_name" content="小工具集">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500&family=Noto+Serif+SC:wght@300;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<div id="loader">
+  <div class="load__mark">xiaogj &middot; toolset</div>
+  <div class="load__bar"></div>
+</div>
+
+<canvas id="field"></canvas>
+<div class="spot" id="spot"></div>
+<div class="grain"></div>
+<div class="vignette"></div>
+
+<div class="cur" id="cur"></div>
+<div class="cur-dot" id="curdot"></div>
+<div class="progress" id="prog"></div>
+
+<nav class="nav" id="nav">
+  <a href="index.html" class="brand"><i></i>小工具集</a>
+  <div class="nav__links">
+    <a href="#toolbox" aria-current="page">工具</a>
+    <a href="#rules">原则</a>
+    <a href="#download">下载</a>
+    <a href="feedback.html">反馈</a>
+  </div>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="mmenu">
+      <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+</nav>
+<div class="mmenu" id="mmenu" aria-hidden="true">
+  <nav>
+    <div class="mm__tag">MENU &middot; 小工具集</div>
+    <a href="index.html#toolbox">全部工具</a>
+    <a href="feedback.html">反馈</a>
+    <a href="index.html#download">下载</a>
+    <a href="index.html">回到首页</a>
+  </nav>
+</div>
+
+
+<main class="page">
+
+  <!-- HERO -->
+  <header class="hero wrap">
+    <div>
+      <div class="eyebrow">本地桌面工具 &middot; 无需联网</div>
+
+      <h1 class="hero__title">
+        <span class="line" data-split>把小事，</span>
+        <span class="line" data-split>做成快捷键。</span>
+      </h1>
+
+      <p class="hero__sub">
+        截图、标注、记待办、整理桌面——那些每天要重复几十次的小动作。
+        这里放着一堆只干一件事、但干得很快的工具。
+      </p>
+
+      <div class="hero__actions">
+        <a href="#toolbox" class="btn btn--fill" data-magnet>
+          浏览全部工具
+          <svg viewBox="0 0 24 24"><path d="M12 4v12m0 0 5-5m-5 5-5-5M5 20h14"/></svg>
+        </a>
+        <a href="#download" class="btn" data-magnet>
+          直接下载
+          <svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- 索引卡：首屏就能看到全部工具 -->
+    <aside class="index" aria-label="工具索引">
+      <div class="index__head">
+        <span>INDEX</span>
+        <span><b id="idxCount">03</b> ITEMS</span>
+      </div>
+      <div id="indexList"></div>
+      <div class="index__foot">
+        <span>按类别归档</span>
+        <span>持续增加</span>
+      </div>
+    </aside>
+  </header>
+
+  <div class="ticker">
+    <div class="ticker__in" id="ticker">
+      <span>纯本地运行 <b>◆</b> 不上传任何数据 <b>◆</b> 无需注册 <b>◆</b> 单文件绿色版 <b>◆</b> 全局热键 <b>◆</b> 开机自启可选 <b>◆</b> 零学习成本 <b>◆</b></span>
+    </div>
+  </div>
+
+  <!-- 工具箱 -->
+  <section class="sec" id="toolbox">
+    <div class="wrap">
+
+      <div class="sec__head rv">
+        <div>
+          <div class="sec__idx">
+            <span class="sec__num">01</span>
+            <span class="sec__tag">TOOLBOX</span>
+          </div>
+          <h2 class="sec__title">工具箱 <em id="count">03</em></h2>
+        </div>
+        <p class="sec__body">一个工具只解决一件事。找不到就搜一下，按 <kbd style="font-family:var(--mono);font-size:10px;border:1px solid var(--line);padding:2px 6px;color:var(--dim)">/</kbd> 直接跳到搜索框。</p>
+      </div>
+
+      <div class="bar">
+        <div class="finder">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="q" type="search" placeholder="搜索工具、功能或标签…" autocomplete="off" aria-label="搜索工具">
+          <kbd>/</kbd>
+        </div>
+        <div class="chips" id="chips"></div>
+      </div>
+
+      <div class="tools" id="tools"></div>
+
+      <div class="empty" id="empty">没有匹配的工具 —— 换个词，或者看全部。</div>
+
+    </div>
+  </section>
+
+  <!-- 原则 -->
+  <section class="sec" id="rules">
+    <div class="wrap">
+      <div class="sec__head rv">
+        <div>
+          <div class="sec__idx"><span class="sec__num">02</span><span class="sec__tag">PRINCIPLES</span></div>
+          <h2 class="sec__title">三条<em>不变的原则</em>。</h2>
+        </div>
+        <p class="sec__body">工具会一直加，但这三条不会动。它们决定了每个功能做不做。</p>
+      </div>
+
+      <div class="rules rv">
+        <div class="rule">
+          <div class="rule__n">/ 01</div>
+          <div class="rule__t">数据不出这台机器</div>
+          <div class="rule__d">没有账号、没有云同步、没有埋点。断网也能用，进程里没有一个上传请求。</div>
+        </div>
+        <div class="rule">
+          <div class="rule__n">/ 02</div>
+          <div class="rule__t">键盘优先于鼠标</div>
+          <div class="rule__d">凡是高频操作，一定有热键。能用一次按键解决的，不做成菜单。</div>
+        </div>
+        <div class="rule">
+          <div class="rule__n">/ 03</div>
+          <div class="rule__t">用完即走，不留痕迹</div>
+          <div class="rule__d">没有引导页、没有升级弹窗、没有“猜你喜欢”。关掉就是关掉。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="download">
+    <div class="wrap">
+      <h2 class="rv">把时间<br>还给<em>正经事</em>。</h2>
+      <p class="rv rv-d1">所有工具都是绿色单文件，下载解压即用，不写注册表。</p>
+      <div class="cta__row rv rv-d2">
+        <a href="snapshot.html" class="btn btn--fill" data-magnet>Snapshot<svg viewBox="0 0 24 24"><path d="M12 4v12m0 0 5-5m-5 5-5-5M5 20h14"/></svg></a>
+        <a href="videotodo.html" class="btn" data-magnet>VideoTodo<svg viewBox="0 0 24 24"><path d="M12 4v12m0 0 5-5m-5 5-5-5M5 20h14"/></svg></a>
+        <a href="deskdock.html" class="btn" data-magnet>DeskDock<svg viewBox="0 0 24 24"><path d="M12 4v12m0 0 5-5m-5 5-5-5M5 20h14"/></svg></a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="wrap foot">
+    <span>&copy; 2026 小工具集</span>
+    <span>纯本地 &middot; 不上传 &middot; 无账号</span>
+    <a href="#">回到顶部 ↑</a>
+  </footer>
+
+</main>
+
+<script src="assets/tools.js"></script>
+<script src="assets/app.js"></script>
+<script>
+(function(){
+  /* 索引卡：从同一份工具数据生成，首屏即全貌 */
+  var list = document.getElementById("indexList");
+  var cnt = document.getElementById("idxCount");
+  if (!list || !window.TOOLS) return;
+  if (cnt) cnt.textContent = String(window.TOOLS.length).padStart(2, "0");
+
+  window.TOOLS.forEach(function (t) {
+    var dev = t.status === "dev";
+    var el = document.createElement(dev ? "div" : "a");
+    el.className = "index__row" + (dev ? " dev" : "");
+    if (!dev) el.href = t.url;
+    el.innerHTML =
+      '<span class="index__no">' + t.no + '</span>' +
+      '<span class="index__name">' + t.name + '</span>' +
+      '<span class="index__cat">' + (dev ? "开发中" : t.catName) + '</span>';
+    list.appendChild(el);
+  });
+})();
+</script>
+</body>
+</html>

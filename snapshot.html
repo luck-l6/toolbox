@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Snapshot — 截图到标注，中间没有一步多余 | 小工具集</title>
+<meta name="description" content="Snapshot：全局热键、区域截图、即时标注、自动归档。纯本地运行，不上传任何数据。">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<meta property="og:title" content="Snapshot — 截图到标注，中间没有一步多余 | 小工具集">
+<meta property="og:description" content="Snapshot：全局热键、区域截图、即时标注、自动归档。纯本地运行，不上传任何数据。">
+<meta property="og:image" content="https://luck-l6.github.io/toolbox/assets/og.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://luck-l6.github.io/toolbox/snapshot.html">
+<meta property="og:site_name" content="小工具集">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500&family=Noto+Serif+SC:wght@300;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<div id="loader">
+  <div class="load__mark">snapshot</div>
+  <div class="load__bar"></div>
+</div>
+
+<canvas id="field"></canvas>
+<div class="spot" id="spot"></div>
+<div class="grain"></div>
+<div class="vignette"></div>
+
+<div class="cur" id="cur"></div>
+<div class="cur-dot" id="curdot"></div>
+<div class="progress" id="prog"></div>
+
+<nav class="nav" id="nav">
+  <a href="index.html" class="brand"><i></i>小工具集</a>
+  <div class="nav__links">
+    <a href="index.html#toolbox">全部工具</a>
+    <a href="videotodo.html">VideoTodo</a>
+    <a href="index.html#download">下载</a>
+    <a href="feedback.html">反馈</a>
+  </div>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false" aria-controls="mmenu">
+      <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+</nav>
+<div class="mmenu" id="mmenu" aria-hidden="true">
+  <nav>
+    <div class="mm__tag">MENU &middot; 小工具集</div>
+    <a href="index.html#toolbox">全部工具</a>
+    <a href="feedback.html">反馈</a>
+    <a href="index.html#download">下载</a>
+    <a href="index.html">回到首页</a>
+  </nav>
+</div>
+
+
+<main class="page">
+
+  <header class="dhead wrap">
+    <a href="index.html#toolbox" class="back">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5m0 0 6-6m-6 6 6 6"/></svg>
+      返回工具箱
+    </a>
+
+    <div class="dhead__grid">
+      <div>
+        <div class="eyebrow">01 &nbsp;/&nbsp; 截图与标注</div>
+        <h1>截图到标注，<br>中间没有一步多余。</h1>
+      </div>
+      <div>
+        <p class="dhead__lead">
+          大多数截图工具先开窗口、再选模式、再切工具栏。
+          Snapshot 把它压成一条直线：按键、框选、画两笔、回车。整条链路不超过四秒。
+        </p>
+        <div class="spec">
+          <div><span>版本</span><b>v1.0.0</b></div>
+          <div><span>平台</span><b>Windows</b></div>
+          <div><span>体积</span><b>121 MB</b></div>
+          <div><span>安装</span><b>绿色单文件</b></div>
+          <div><span>网络</span><b>零请求</b></div>
+        </div>
+        <div class="clg">
+          <div class="clg__t">更新日志</div>
+          <div class="clg__i"><b>v1.0.0</b><span>首个公开版本。</span></div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:26px;flex-wrap:wrap">
+          <a href="https://github.com/luck-l6/toolbox/releases/download/v1.0.0/Snapshot.exe" class="btn btn--fill" data-magnet rel="noopener">
+            下载 Snapshot
+            <svg viewBox="0 0 24 24"><path d="M12 4v12m0 0 5-5m-5 5-5-5M5 20h14"/></svg>
+          </a>
+        </div>
+          <p class="dlwarn">首次运行如提示&ldquo;未知发布者&rdquo;，点 <b>更多信息 &rarr; 仍要运行</b>。绿色版，下载即用。</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- 3D 舞台 -->
+  <div class="pin" id="pin">
+    <div class="pin__stick wrap">
+      <div class="stage">
+        <div class="stage__inner" id="stageInner">
+          <figure class="frame" id="frame1">
+            <div class="frame__bar"><i></i><i></i><i></i><span class="frame__url">snapshot / annotate</span></div>
+            <img src="assets/annotate.png" alt="Snapshot 标注界面">
+            <div class="frame__glare"></div>
+          </figure>
+        </div>
+      </div>
+
+      <div class="steps" id="steps">
+        <div class="step on">
+          <div class="step__k">STEP 01</div>
+          <div class="step__t">按下热键</div>
+          <div class="step__d">Ctrl + Shift + X，任何界面都能唤起，不切窗口。</div>
+        </div>
+        <div class="step">
+          <div class="step__k">STEP 02</div>
+          <div class="step__t">拖一个框</div>
+          <div class="step__d">拖到哪里截到哪里，松手即锁定，其余部分自动压暗。</div>
+        </div>
+        <div class="step">
+          <div class="step__k">STEP 03</div>
+          <div class="step__t">画两笔</div>
+          <div class="step__d">箭头、方框、荧光笔，工具跟着手走，不用去点工具栏。</div>
+        </div>
+        <div class="step">
+          <div class="step__k">STEP 04</div>
+          <div class="step__t">回车收工</div>
+          <div class="step__d">直接进剪贴板，同时归档到截图库，随时回捞。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 胶片条 -->
+  <div class="strip">
+    <div class="strip__rail" id="strip">
+      <figure><img src="assets/gallery.png" alt="截图库"><figcaption>截图库 / 归档与检索</figcaption></figure>
+      <figure><img src="assets/snap-idle.png" alt="区域截图"><figcaption>区域截图 / 自由框选</figcaption></figure>
+      <figure><img src="assets/annotate.png" alt="标注"><figcaption>标注 / 箭头与方框</figcaption></figure>
+      <figure><img src="assets/gallery.png" alt="截图库"><figcaption>截图库 / 归档与检索</figcaption></figure>
+      <figure><img src="assets/snap-idle.png" alt="区域截图"><figcaption>区域截图 / 自由框选</figcaption></figure>
+      <figure><img src="assets/annotate.png" alt="标注"><figcaption>标注 / 箭头与方框</figcaption></figure>
+    </div>
+  </div>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="feat rv">
+        <div class="feat__c"><div class="feat__n">01</div><div class="feat__t">全局热键</div><div class="feat__d">在任意程序里直接唤起，不打断当前任务。</div></div>
+        <div class="feat__c"><div class="feat__n">02</div><div class="feat__t">即时标注</div><div class="feat__d">箭头、矩形、文字、高亮，画完立刻可粘贴。</div></div>
+        <div class="feat__c"><div class="feat__n">03</div><div class="feat__t">自动归档</div><div class="feat__d">每张截图自动入库，按时间与来源检索。</div></div>
+        <div class="feat__c"><div class="feat__n">04</div><div class="feat__t">托盘常驻</div><div class="feat__d">托盘里安静待命，内存占用常年个位数。</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="fbline">
+      <p>用着不对劲，或者少了点什么？<em>说一声。</em></p>
+      <div class="fbline__acts">
+        <a href="feedback.html?tool=snapshot&amp;type=bug">报告 Bug</a>
+        <a href="feedback.html?tool=snapshot&amp;type=feature">提个建议</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <a href="videotodo.html" class="next">
+      <div>
+        <div class="next__k">下一个工具</div>
+        <div class="next__n">VideoTodo — 一边看，一边把时间点钉住</div>
+      </div>
+      <svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg>
+    </a>
+  </div>
+
+  <footer class="wrap foot">
+    <span>&copy; 2026 小工具集</span>
+    <span>纯本地 &middot; 不上传 &middot; 无账号</span>
+    <a href="index.html">回到首页 ↑</a>
+  </footer>
+
+</main>
+
+<script src="assets/tools.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
