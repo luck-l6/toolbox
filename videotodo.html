@@ -95,6 +95,12 @@
           <a href="https://github.com/luck-l6/toolbox/releases/download/v1.0.0/VideoTodo.exe" class="dl-alt" rel="noopener">GitHub 直链 ↗</a>
         </div>
           <p class="dlwarn">首次运行如提示&ldquo;未知发布者&rdquo;，点 <b>更多信息 &rarr; 仍要运行</b>。绿色版，下载即用。</p>
+          <details class="verify">
+            <summary>为什么有安全提示 · 校验文件</summary>
+            <p>本工具是个人开发的绿色软件，未购买商业代码签名证书。Windows 对从网络下载的未签名程序会统一提示&ldquo;未知发布者&rdquo;或&ldquo;已保护你的电脑&rdquo;，属正常拦截，并非病毒。点 <b>更多信息 &rarr; 仍要运行</b> 即可；或右键文件 &rarr; 属性 &rarr; 勾选&ldquo;解除锁定&rdquo;去掉网络标记。不放心可核对下面的校验值。</p>
+            <div class="verify__row"><span>SHA256</span><code>ca52ec4481b89f066eb6a9bba03810ccdaa3a9f36880e77c75abe78cee294dd8</code></div>
+            <p class="verify__hint">核对命令：<code>Get-FileHash .\VideoTodo.exe -Algorithm SHA256</code></p>
+          </details>
       </div>
     </div>
   </header>
