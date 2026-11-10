@@ -435,6 +435,8 @@ body.hovering .cur{width:64px;height:64px;margin:-32px 0 0 -32px;border-color:rg
 
 .dlwarn{margin-top:16px;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;color:var(--dim2);line-height:2.1}
 .dlwarn b{color:var(--gold);font-weight:400}
+.dl-alt{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--dim2);border-bottom:1px solid var(--line-2);padding-bottom:3px;white-space:nowrap;transition:color .35s,border-color .35s}
+.dl-alt:hover,.dl-alt:active{color:var(--gold);border-color:var(--gold)}
 .clg{margin-top:24px;border-top:1px solid var(--line)}
 .clg__t{font-family:var(--mono);font-size:9px;letter-spacing:.26em;color:var(--dim2);padding:12px 0 6px}
 .clg__i{display:flex;gap:16px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--line);font-size:.8rem}
