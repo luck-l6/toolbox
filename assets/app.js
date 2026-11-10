@@ -301,3 +301,36 @@
   renderChips();
   render();
 })();
+
+/* ============================================================
+   访问计数 —— 不蒜子（仅累计次数，不含任何个人信息）
+   接口失败或超时自动隐藏，不影响页面其余部分
+   ============================================================ */
+(function () {
+  "use strict";
+  var foot = document.querySelector(".foot");
+  if (!foot) return;
+
+  var box = document.createElement("span");
+  box.className = "foot-stat";
+  box.title = "访问计数由不蒜子提供，仅记录浏览次数与访客数";
+  box.innerHTML = '<span>访问 <b data-pv>—</b></span><i>·</i><span>访客 <b data-uv>—</b></span>';
+  foot.appendChild(box);
+
+  var done = false;
+  var timer = setTimeout(function () { if (!done) box.remove(); }, 6000);
+
+  window.__bszCb = function (d) {
+    if (!d || typeof d.site_pv === "undefined") return;
+    done = true;
+    clearTimeout(timer);
+    box.querySelector("[data-pv]").textContent = d.site_pv;
+    box.querySelector("[data-uv]").textContent = d.site_uv;
+  };
+
+  var s = document.createElement("script");
+  s.async = true;
+  s.src = "https://busuanzi.ibruce.info/busuanzi?jsonpCallback=__bszCb";
+  s.onerror = function () { if (!done) box.remove(); };
+  document.head.appendChild(s);
+})();
