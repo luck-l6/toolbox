@@ -234,6 +234,9 @@ body.hovering .cur{width:64px;height:64px;margin:-32px 0 0 -32px;border-color:rg
 /* ---------- 页脚 ---------- */
 .foot{border-top:1px solid var(--line);padding:32px 0 30px;display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap;font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--dim2)}
 .foot a:hover{color:var(--gold)}
+.foot-stat{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--dim2);white-space:nowrap}
+.foot-stat b{font-weight:400;color:var(--gold);font-variant-numeric:tabular-nums}
+.foot-stat i{font-style:normal;opacity:.4}
 
 /* ============================================================
    详情页
